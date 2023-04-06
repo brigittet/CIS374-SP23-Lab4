@@ -49,18 +49,23 @@ namespace Lab4
             if (other == null)
             {
                 throw new NullReferenceException("Other Person must not be null");
+
             }
 
 
             // compute distance between first letters of first name
 
-            char c = 'W';
-            char d = 'K';
+            var c = FirstName[0];
+            var d = other.FirstName[0];
 
             int difference = Math.Abs( c - d );
+            if (difference < 0)
+            {
+                difference = difference * -1;
+            }
 
 
-            return 1;
+            return difference;
         }
 
 

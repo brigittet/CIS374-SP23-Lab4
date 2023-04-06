@@ -14,7 +14,14 @@ namespace Lab4
         }
 
         // TODO
-        public char? EndingLetter { get; }
+        public char? EndingLetter
+        {
+            get
+            {
+                return Persons[Count - 1].LastName[0];
+            }
+        }
+
 
         public int Count => Persons.Count;
 
@@ -56,27 +63,56 @@ namespace Lab4
         public static List<PersonGroup> GeneratePersonGroups(List<Person> persons, int distance)
         {
             var personGroups = new List<PersonGroup>();
+            foreach (Person person in persons)
+            {
+                person.FirstName = person.FirstName.ToLower();
+                person.LastName = person.LastName.ToLower();
+            }
+            persons.Sort();
 
             // This isn't correct code. 
             // It's is just a sample of how to interact with the classes.
-            var group1 = new PersonGroup();
-            var group2 = new PersonGroup();
+            //var group1 = new PersonGroup();
+            //var group2 = new PersonGroup();
 
-            foreach (var person in persons)
+            //foreach (var person in persons)
+            //{
+            //    if (person.FirstName.StartsWith("K"))
+            //    {
+            //        group1.Persons.Add(person);
+            //    }
+            //    else
+            //    {
+            //        group2.Persons.Add(person);
+            //    }
+            //}
+
+            //personGroups.Add(group1);
+            //personGroups.Add(group2);
+
+            //return personGroups;
+
+            var currentGroup = new PersonGroup();
+            foreach (Person person in persons)
             {
-                if (person.FirstName.StartsWith("K"))
+                if (currentGroup.Persons.Count == 0)
                 {
-                    group1.Persons.Add(person);
+                    currentGroup.Persons.Add(person);
+                    continue;
+                }
+                if (currentGroup[0].Distance(person) <= distance)
+                {
+                    currentGroup.Persons.Add(person);
+                    continue;
                 }
                 else
                 {
-                    group2.Persons.Add(person);
+                    personGroups.Add(currentGroup);
+                    var nextGroup = new PersonGroup();
+                    nextGroup.Persons.Add(person);
+                    currentGroup = nextGroup;
                 }
             }
-
-            personGroups.Add(group1);
-            personGroups.Add(group2);
-
             return personGroups;
         }
 
