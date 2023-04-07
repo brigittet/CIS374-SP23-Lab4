@@ -18,7 +18,7 @@ namespace Lab4
         {
             get
             {
-                return Persons[Count - 1].LastName[0];
+                return Persons[Count - 1].FirstName[0];
             }
         }
 
